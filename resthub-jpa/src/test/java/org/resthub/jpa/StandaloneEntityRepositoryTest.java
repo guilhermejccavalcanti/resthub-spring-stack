@@ -7,7 +7,6 @@ import org.resthub.test.AbstractTransactionalTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     public void testDelete() {
         StandaloneEntity entity = repository.save(new StandaloneEntity());
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         repository.delete(entity);
         Assertions.assertThat(repository.exists(entity.getId())).isFalse();
     }
@@ -45,18 +43,15 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     public void testDeleteById() {
         StandaloneEntity entity = repository.save(new StandaloneEntity());
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         repository.delete(entity.getId());
         Assertions.assertThat(repository.exists(entity.getId())).isFalse();
     }
 
     @Test
     public void testFindAll() {
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(),
-                new StandaloneEntity()));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(), new StandaloneEntity()));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
-
         List<StandaloneEntity> collectedEntities = repository.findAll();
         Assertions.assertThat(collectedEntities).isNotNull().hasSize(entities.size());
     }
@@ -65,7 +60,6 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     public void testFindById() {
         StandaloneEntity entity = repository.save(new StandaloneEntity());
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         StandaloneEntity collectedEntity = repository.findOne(entity.getId());
         Assertions.assertThat(collectedEntity).isNotNull().isEqualTo(entity);
     }
@@ -74,7 +68,6 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     public void testFindByIds() {
         StandaloneEntity entity = repository.save(new StandaloneEntity());
         StandaloneEntity entity2 = repository.save(new StandaloneEntity());
-
         List<StandaloneEntity> entities = repository.findAll(Arrays.asList(entity.getId(), entity2.getId()));
         Assertions.assertThat(entities).isNotNull().isNotEmpty();
         Assertions.assertThat(entities.size()).isEqualTo(2);
@@ -84,9 +77,8 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Test
     public void testEncoding() {
-        StandaloneEntity entity = repository.save(new StandaloneEntity("C\u2202dre"));
+        StandaloneEntity entity = repository.save(new StandaloneEntity("C∂dre"));
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         StandaloneEntity collectedEntity = repository.findOne(entity.getId());
         Assertions.assertThat(collectedEntity).isNotNull().isEqualTo(entity);
     }
@@ -94,14 +86,11 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByName() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
-                new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
-
         StandaloneEntity entity = repository.save(new StandaloneEntity(name2));
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         List<StandaloneEntity> collectedEntities = repository.findByName(name);
         Assertions.assertThat(collectedEntities).isNotNull().hasSize(entities.size());
     }
@@ -109,14 +98,11 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByNameLike() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2", expression = name + "%";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
-                new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
-
         StandaloneEntity entity = repository.save(new StandaloneEntity(name2));
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         List<StandaloneEntity> collectedEntities = repository.findByNameLike(expression);
         Assertions.assertThat(collectedEntities).isNotNull().hasSize((int) repository.count());
     }
@@ -124,14 +110,11 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByNameWithExplicitQuery() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
-                new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
-
         StandaloneEntity entity = repository.save(new StandaloneEntity(name2));
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
-
         List<StandaloneEntity> collectedEntities = repository.findByNameWithExplicitQuery(name);
         Assertions.assertThat(collectedEntities).isNotNull().hasSize(entities.size());
     }
